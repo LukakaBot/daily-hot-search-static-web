@@ -11,19 +11,14 @@ class Fetcher {
   }
 
   async request<T = any>(url: string, method: Method, data?: T) {
-    try {
-      const request = this.interceptor.request({
-        url,
-        method,
-        data
-      });
+    const request = this.interceptor.request({
+      url,
+      method,
+      data
+    });
 
-      const response = await fetch(url, request.options);
-      return this.interceptor.response(response);
-    } catch (error) {
-      console.error('Fetch error:', error);
-      throw error;
-    }
+    const response = await fetch(url, request.options);
+    return this.interceptor.response(response);
   }
 
   get = <T = any>(url: string, data?: T) => this.request(url, 'GET', data);

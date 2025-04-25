@@ -1,5 +1,5 @@
 import queryString from 'query-string';
-import type { FetcherRequestConfig, FetcherRequestInit, Headers } from "../types";
+import type { FetcherRequestConfig, FetcherRequestInit, Headers, ResponseData } from "../types";
 
 class InterceptorManager {
   constructor() { }
@@ -49,12 +49,18 @@ class InterceptorManager {
     };
   }
 
-  response = <T = any>(response: Response): Promise<T> => {
+  response = <T>(response: Response): Promise<T> => {
     return new Promise((resolve, reject) => {
       const URL = response.url;
 
+      const res = response.json() as Promise<ResponseData<T>>;
+
       if (response.status === 200) {
-        return resolve(response.json() as Promise<T>);
+        res.then((data) => {
+          console.log(data)
+          return resolve(data.data);
+        })
+        // return resolve(response.json() as Promise<ResponseData<T>>);
       } else {
         response.clone().text().then((text) => {
           try {
@@ -67,6 +73,29 @@ class InterceptorManager {
       }
     })
   }
+
+  // response = <T>(response: Response): T => {
+  //   const URL = response.url;
+
+  //   const res = response.json() as Promise<ResponseData<T>>;
+
+  //   if (response.status === 200) {
+  //     res.then((data) => {
+  //       console.log(data)
+  //       return data.data;
+  //     })
+  //     // return resolve(response.json() as Promise<ResponseData<T>>);
+  //   } else {
+  //     response.clone().text().then((text) => {
+  //       try {
+  //         const error = JSON.parse(text);
+  //         return Promise.reject({ message: error.message || 'API Error', url: URL });
+  //       } catch {
+  //         return Promise.reject({ message: text, url: URL });
+  //       }
+  //     });
+  //   }
+  // }
 }
 
 export default InterceptorManager;

@@ -33,7 +33,6 @@ export interface FetcherRequestInit {
   options: RequestInit;
 }
 
-
 type CommonRequestHeadersList = 'Accept' | 'Content-Length' | 'User-Agent' | 'Content-Encoding' | 'Authorization';
 
 export type FetcherHeaderValue = string | string[] | number | boolean | null;
@@ -51,3 +50,15 @@ export type FetcherRequestHeaders = Partial<RawFetcherHeaders & {
 }>;
 
 export type Headers = RequestInit['headers'] & FetcherRequestHeaders;
+
+
+export class Fetcher {
+
+  get<T = any, R = Response>(url: string, data?: T): Promise<R>;
+}
+
+export interface ResponseData<T> {
+  code: number;
+  message: string;
+  data: T;
+}

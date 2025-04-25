@@ -1,4 +1,4 @@
-import type { FetcherRequestConfig, Method } from '../types';
+import type { FetcherRequestConfig, Method, ResponseData } from '../types';
 import InterceptorManager from './InterceptorManager';
 
 class Fetcher {
@@ -10,7 +10,7 @@ class Fetcher {
     this.instanceConfig = instanceConfig;
   }
 
-  async request<T = any>(url: string, method: Method, data?: T) {
+  async request<T = any, R = Response>(url: string, method: Method, data?: T): Promise<R> {
     const request = this.interceptor.request({
       url,
       method,
@@ -21,15 +21,16 @@ class Fetcher {
     return this.interceptor.response(response);
   }
 
-  get = <T = any>(url: string, data?: T) => this.request(url, 'GET', data);
+  // get = <T = any>(url: string, data?: T): Promise<T> => this.request(url, 'GET', data);
+  get = <T = any, R = ResponseData<T>, D = any>(url: string, data?: D): Promise<R> => this.request(url, 'GET', data);
 
-  post = <T = any>(url: string, data?: T) => this.request(url, 'POST', data);
+  post = <T = any>(url: string, data?: T): Promise<T> => this.request(url, 'POST', data);
 
-  put = <T = any>(url: string, data?: T) => this.request(url, 'PUT', data);
+  put = <T = any>(url: string, data?: T): Promise<T> => this.request(url, 'PUT', data);
 
-  delete = <T = any>(url: string, data?: T) => this.request(url, 'DELETE', data);
+  delete = <T = any>(url: string, data?: T): Promise<T> => this.request(url, 'DELETE', data);
 
-  patch = <T = any>(url: string, data?: T) => this.request(url, 'PATCH', data);
+  patch = <T = any>(url: string, data?: T): Promise<T> => this.request(url, 'PATCH', data);
 }
 
 export default Fetcher;

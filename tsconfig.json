@@ -37,7 +37,7 @@
     "**/*.ts",
     "**/*.tsx",
     ".next/types/**/*.ts",
-    "utils/request/core/Fetcher.ts"
+    "utils/fetcher/core/Fetcher.ts"
   ],
   "exclude": [
     "node_modules"

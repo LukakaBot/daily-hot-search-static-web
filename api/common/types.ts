@@ -1,7 +1,7 @@
-export interface ResponseData<T> {
+export interface ResponseData<D> {
   code: number;
   message: string;
-  data: T;
+  data: D;
 }
 
 export interface HotSearchDataItem {

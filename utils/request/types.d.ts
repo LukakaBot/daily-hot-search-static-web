@@ -24,10 +24,6 @@ export interface CreateFetcherDefaults<D = any> extends Omit<FetcherRequestConfi
   headers?: Headers;
 }
 
-export interface FetcherInstance extends Fetcher {
-  create: (instanceConfig: FetcherRequestConfig) => Fetcher;
-}
-
 export interface FetcherRequestInit {
   url: string;
   options: RequestInit;
@@ -51,8 +47,8 @@ export type FetcherRequestHeaders = Partial<RawFetcherHeaders & {
 
 export type Headers = RequestInit['headers'] & FetcherRequestHeaders;
 
-export interface ResponseData<T> {
+export interface ResponseData<D> {
   code: number;
   message: string;
-  data: T;
+  data: D;
 }

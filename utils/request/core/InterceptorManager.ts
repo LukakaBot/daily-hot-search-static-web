@@ -49,11 +49,11 @@ class InterceptorManager {
     };
   }
 
-  response = <T>(response: Response): Promise<T> => {
+  response = <D>(response: Response): Promise<D> => {
     return new Promise((resolve, reject) => {
       const URL = response.url;
 
-      const res = response.json() as Promise<ResponseData<T>>;
+      const res = response.json() as Promise<ResponseData<D>>;
 
       if (response.status === 200) {
         res.then((data) => {

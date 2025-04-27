@@ -7,12 +7,12 @@ export type Method =
   | 'put' | 'PUT'
   | 'patch' | 'PATCH';
 
-export interface FetcherRequestConfig<T = any> {
+export interface FetcherRequestConfig<D = any> {
   url?: string;
   method?: Method;
   baseURL?: string;
   headers?: Headers;
-  data?: T;
+  data?: D;
   cacheTIme?: number;
   next?: {
     revalidate: number;

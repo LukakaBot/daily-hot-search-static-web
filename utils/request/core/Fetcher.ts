@@ -1,36 +1,39 @@
-import type { FetcherRequestConfig, Method, ResponseData } from '../types';
+import type { FetcherRequestConfig, Method } from '../types';
 import InterceptorManager from './InterceptorManager';
 
 class Fetcher {
   private instanceConfig: FetcherRequestConfig;
   private interceptor = new InterceptorManager();
+  private baseURL: string;
   create = (instanceConfig: FetcherRequestConfig) => new Fetcher(instanceConfig);
 
   constructor(instanceConfig: FetcherRequestConfig) {
     this.instanceConfig = instanceConfig;
+    this.baseURL = instanceConfig.baseURL || '';
   }
 
-  async request<T = any, R = Response>(url: string, method: Method, data?: T): Promise<R> {
+  async request<T = any, D = any>(config: FetcherRequestConfig<D>): Promise<T> {
+    const { url, method, data } = config;
+
     const request = this.interceptor.request({
-      url,
+      url: this.baseURL + url,
       method,
-      data
+      data,
     });
 
-    const response = await fetch(url, request.options);
+    const response = await fetch(request.url, request.options);
     return this.interceptor.response(response);
   }
 
-  // get = <T = any>(url: string, data?: T): Promise<T> => this.request(url, 'GET', data);
-  get = <T = any, R = ResponseData<T>, D = any>(url: string, data?: D): Promise<R> => this.request(url, 'GET', data);
+  get = <T = any, D = any>(url: string, data?: D): Promise<T> => this.request({ url, method: 'GET', data });
 
-  post = <T = any>(url: string, data?: T): Promise<T> => this.request(url, 'POST', data);
+  post = <T = any, D = any>(url: string, data?: D): Promise<T> => this.request({ url, method: 'POST', data });
 
-  put = <T = any>(url: string, data?: T): Promise<T> => this.request(url, 'PUT', data);
+  put = <T = any, D = any>(url: string, data?: D): Promise<T> => this.request({ url, method: 'PUT', data });
 
-  delete = <T = any>(url: string, data?: T): Promise<T> => this.request(url, 'DELETE', data);
+  delete = <T = any, D = any>(url: string, data?: D): Promise<T> => this.request({ url, method: 'DELETE', data });
 
-  patch = <T = any>(url: string, data?: T): Promise<T> => this.request(url, 'PATCH', data);
+  patch = <T = any, D = any>(url: string, data?: D): Promise<T> => this.request({ url, method: 'PATCH', data });
 }
 
 export default Fetcher;

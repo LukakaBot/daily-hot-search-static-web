@@ -4,13 +4,13 @@ import { HeroUIProvider } from '@heroui/react';
 import ThemeProvider from '@/components/theme/ThemeProvider';
 import setupPlugin from '@/plugin';
 
-function Providers({ children }: { children: React.ReactNode }) {
+function Providers({ children }: React.PropsWithChildren) {
 	setupPlugin();
 
 	return (
 		<>
 			<HeroUIProvider>
-				<ThemeProvider defaultTheme='dark'>{children}</ThemeProvider>
+				<ThemeProvider defaultTheme='light'>{children}</ThemeProvider>
 			</HeroUIProvider>
 		</>
 	);

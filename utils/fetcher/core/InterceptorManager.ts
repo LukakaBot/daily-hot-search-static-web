@@ -57,7 +57,6 @@ class InterceptorManager {
 
       if (response.status === 200) {
         res.then((data) => {
-          console.log(data)
           return resolve(data.data);
         })
       } else {

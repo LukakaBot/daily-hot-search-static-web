@@ -1,4 +1,4 @@
-import type { FetcherRequestConfig, Method } from '../types';
+import type { FetcherRequestConfig } from '../types';
 import InterceptorManager from './InterceptorManager';
 
 class Fetcher {

@@ -1,21 +1,36 @@
-import { fetchHotSearchList } from '@/api/weibo';
+'use client';
 
-async function Home() {
-	const res = await fetchHotSearchList();
-	// const result = await fetch('https://hot-search-admin-web.vercel.app');
-	// const res = await result.json();
-	console.log(res);
+import { Button, Card, CardBody, CardHeader } from '@heroui/react';
+import { fetchWeiboHotSearchList } from '@/api/hotSearch';
+import { useEffect, useState } from 'react';
+import { HotSearchDataItem } from '@/api/common/types';
+
+function Home() {
+	// console.log(process.env.NEXT_PUBLIC_SERVICE_URL);
+	const [hotSearchData, setHotSearchData] = useState<HotSearchDataItem[]>([]);
+
+	const getData = async () => {
+		const res = await fetchWeiboHotSearchList();
+		console.log(res);
+		setHotSearchData(res);
+	};
+
+	useEffect(() => {
+		getData();
+	}, []);
 
 	return (
 		<>
 			<h1>我是首页</h1>
-			<div>
-				{/* {res.map((item: any) => (
-					<div key={item.id}>
-						<h2>{item.title}</h2>
-					</div>
-				))} */}
-			</div>
+			<Button color='primary'>Button</Button>;
+			{hotSearchData.map((item) => {
+				return (
+					<Card key={item.id}>
+						<CardHeader>{item.title}</CardHeader>
+						<CardBody>{item.desc}</CardBody>
+					</Card>
+				);
+			})}
 		</>
 	);
 }

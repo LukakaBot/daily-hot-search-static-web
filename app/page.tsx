@@ -1,18 +1,17 @@
 'use client';
 
-import { Button, Card, CardBody, CardHeader } from '@heroui/react';
+import { Button, Flex } from 'antd';
+import { Card, CardHeader, CardBody } from '@heroui/react';
 import { fetchWeiboHotSearchList } from '@/api/hotSearch';
 import { useEffect, useState } from 'react';
 import { HotSearchDataItem } from '@/api/common/types';
 
 function Home() {
-	// console.log(process.env.NEXT_PUBLIC_SERVICE_URL);
 	const [hotSearchData, setHotSearchData] = useState<HotSearchDataItem[]>([]);
 
 	const getData = async () => {
-		const res = await fetchWeiboHotSearchList();
-		console.log(res);
-		setHotSearchData(res);
+		const data = await fetchWeiboHotSearchList();
+		setHotSearchData(data);
 	};
 
 	useEffect(() => {
@@ -22,7 +21,13 @@ function Home() {
 	return (
 		<>
 			<h1>我是首页</h1>
-			<Button color='primary'>Button</Button>;
+			<Flex gap='small' wrap>
+				<Button type='primary'>Primary Button</Button>
+				<Button>Default Button</Button>
+				<Button type='dashed'>Dashed Button</Button>
+				<Button type='text'>Text Button</Button>
+				<Button type='link'>Link Button</Button>
+			</Flex>
 			{hotSearchData.map((item) => {
 				return (
 					<Card key={item.id}>

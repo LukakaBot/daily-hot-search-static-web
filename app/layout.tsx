@@ -1,6 +1,7 @@
 import type { Metadata } from 'next';
 import Provider from './provider';
 import './globals.css';
+import '@ant-design/v5-patch-for-react-19';
 import Header from '@/components/layout/Header/Header';
 import Content from '@/components/layout/Content';
 import Footer from '@/components/layout/Footer/Footer';

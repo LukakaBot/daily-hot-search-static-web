@@ -7,7 +7,16 @@ import setupPlugin from '@/plugin';
 function Providers({ children }: React.PropsWithChildren) {
 	setupPlugin();
 
-	return <ThemeProvider defaultTheme='light'>{children}</ThemeProvider>;
+	return (
+		<ThemeProvider
+			attribute='class'
+			defaultTheme='system'
+			enableSystem
+			disableTransitionOnChange
+		>
+			{children}
+		</ThemeProvider>
+	);
 }
 
 export default Providers;

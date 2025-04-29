@@ -18,9 +18,11 @@ export default function RootLayout({ children }: React.PropsWithChildren) {
 			</head>
 			<body className='min-h-screen'>
 				<Provider>
-					<Header />
-					<Content>{children}</Content>
-					<Footer />
+					<div className='flex min-h-screen w-full flex-col'>
+						<Header />
+						<Content>{children}</Content>
+						<Footer />
+					</div>
 				</Provider>
 			</body>
 		</html>

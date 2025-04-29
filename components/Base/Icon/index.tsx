@@ -1,3 +1,4 @@
+import Image from 'next/image';
 import { Icon } from '@iconify/react';
 import { CSSProperties, useMemo } from 'react';
 
@@ -19,13 +20,25 @@ function BaseIcon(props: Props) {
 		[]
 	);
 
+	const isLocalIcon = useMemo(() => {
+		return name.startsWith('svg-');
+	}, [name]);
+
 	const isCSSIcon = useMemo(() => {
 		return name.startsWith('icon-');
 	}, [name]);
 
-	return isCSSIcon ? (
-		<span className={`${name} ${className}`} style={iconStyle} />
-	) : (
+	if (isLocalIcon) {
+		return (
+			<Image src={`/svg/${name}.svg`} alt={name} width={size} height={size} />
+		);
+	}
+
+	if (isCSSIcon) {
+		return <span className={`${name} ${className}`} style={iconStyle} />;
+	}
+
+	return (
 		<Icon
 			className={className}
 			icon={name}

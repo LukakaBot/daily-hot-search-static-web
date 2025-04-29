@@ -1,16 +1,13 @@
 @import 'tailwindcss';
-@import "tw-animate-css";
+@import 'tw-animate-css';
+/* layer components */
+@import './components.css';
 
 @custom-variant dark (&:is(.dark *));
 /* iconify */
 @plugin "@iconify/tailwind4";
 /* daisy ui */
 @plugin "daisyui";
-
-[data-theme='dark'] {
-	--background: #0a0a0a;
-	--foreground: #ededed;
-}
 
 @theme inline {
 	--radius-sm: calc(var(--radius) - 4px);
@@ -120,10 +117,10 @@
 }
 
 @layer base {
-  * {
-    @apply border-border outline-ring/50;
+	* {
+		@apply border-border outline-ring/50;
 	}
-  body {
-    @apply bg-background text-foreground;
+	body {
+		@apply bg-background text-foreground;
 	}
 }

@@ -1,7 +1,7 @@
 'use client';
 
 import { useEffect, useState } from 'react';
-import { Switch } from '@heroui/react';
+// import { Switch } from '@heroui/react';
 import { useTheme } from 'next-themes';
 import BaseIcon from '@/components/Base/Icon';
 
@@ -17,11 +17,8 @@ function ThemeSwitch() {
 
 	return (
 		<>
-			<span className='icon-[ep--sunny]'></span>
-
-			<BaseIcon name='mdi:home' />
 			<div className='flex'>
-				<Switch
+				{/* <Switch
 					defaultSelected
 					value={theme}
 					thumbIcon={({ isSelected, className }) =>
@@ -42,7 +39,19 @@ function ThemeSwitch() {
 						)
 					}
 					onValueChange={(value) => setTheme(value ? 'light' : 'dark')}
-				/>
+				/> */}
+				{/* <label className='toggle text-base-content'>
+					<input
+						type='checkbox'
+						checked={theme === 'dark' ? false : true}
+						onChange={(e) => {
+							console.log(e);
+							setTheme(e.target.checked ? 'light' : 'dark');
+						}}
+					/>
+					<BaseIcon aria-label='enabled' name='icon-[ep--sunny]' />
+					<BaseIcon aria-label='disabled' name='icon-[ep--moon]' />
+				</label> */}
 			</div>
 		</>
 	);

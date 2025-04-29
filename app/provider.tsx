@@ -1,18 +1,13 @@
 'use client';
 
 import '@/style/index';
-import { HeroUIProvider } from '@heroui/react';
 import ThemeProvider from '@/components/theme/ThemeProvider';
 import setupPlugin from '@/plugin';
 
 function Providers({ children }: React.PropsWithChildren) {
 	setupPlugin();
 
-	return (
-		<HeroUIProvider>
-			<ThemeProvider defaultTheme='light'>{children}</ThemeProvider>
-		</HeroUIProvider>
-	);
+	return <ThemeProvider defaultTheme='light'>{children}</ThemeProvider>;
 }
 
 export default Providers;

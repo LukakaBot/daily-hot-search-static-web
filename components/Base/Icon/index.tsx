@@ -2,13 +2,13 @@ import Image from 'next/image';
 import { Icon } from '@iconify/react';
 import { CSSProperties, useMemo } from 'react';
 
-interface Props extends React.HTMLAttributes<HTMLElement> {
+interface BaseIconProps extends React.HTMLAttributes<HTMLElement> {
 	name: string;
 	size?: number;
 	color?: string;
 }
 
-function BaseIcon(props: Props) {
+function BaseIcon(props: BaseIconProps) {
 	const { className, name, size = 16, color } = props;
 
 	const iconStyle = useMemo(
@@ -30,7 +30,13 @@ function BaseIcon(props: Props) {
 
 	if (isLocalIcon) {
 		return (
-			<Image src={`/svg/${name}.svg`} alt={name} width={size} height={size} />
+			<Image
+				className={className}
+				src={`/svg/${name}.svg`}
+				alt={name}
+				width={size}
+				height={size}
+			/>
 		);
 	}
 

@@ -5,3 +5,8 @@ import fetcher from "@/utils/fetcher";
 export function fetchWeiboHotSearchList(): Promise<HotSearchDataItem[]> {
   return fetcher.get('/weibo');
 }
+
+/** 获取blibili热搜 */
+export function fetchBilibiliHotSearchList():Promise<HotSearchDataItem[]> {
+    return fetcher.get('/bilibili');
+}

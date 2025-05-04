@@ -1,8 +1,11 @@
 "use client";
 
-import { fetchWeiboHotSearchList } from "@/api/hotSearch";
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { HotSearchDataItem } from "@/api/common/types";
+import {
+  fetchWeiboHotSearchList,
+  fetchBilibiliHotSearchList,
+} from "@/api/hotSearch";
 import { useLoading } from "@/hook";
 import BaseIcon from "@/components/Base/Icon";
 import {
@@ -26,26 +29,13 @@ function getBadgeColorClassName(index: number) {
   }
 }
 
-function Home() {
-  const [weiboHotSearchList, setWeiboHotSearchList] = useState<
-    HotSearchDataItem[]
-  >([]);
-  const [loading, setLoading] = useLoading();
-
-  const getWeiboData = async () => {
-    try {
-      setLoading(true);
-      const data = await fetchWeiboHotSearchList();
-      setWeiboHotSearchList(data);
-    } finally {
-      setLoading(false);
-    }
-  };
-
-  useEffect(() => {
-    getWeiboData();
-  }, []);
-
+function HotSearchDataList({
+  list,
+  loading,
+}: {
+  list: HotSearchDataItem[];
+  loading: boolean;
+}) {
   return (
     <div className="w-full">
       <div className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
@@ -66,7 +56,7 @@ function Home() {
                   <span className="loading loading-infinity loading-xl"></span>
                 </div>
               ) : (
-                weiboHotSearchList.map((item, index) => {
+                list.map((item, index) => {
                   return (
                     <div
                       className="w-full flex items-center not-last:mb-2 cursor-pointer"
@@ -104,6 +94,57 @@ function Home() {
         </Card>
       </div>
     </div>
+  );
+}
+
+function WeiboHotSearchList() {
+  const [list, setList] = useState<HotSearchDataItem[]>([]);
+  const [loading, setLoading] = useLoading();
+
+  const getData = async () => {
+    try {
+      setLoading(true);
+      const data = await fetchWeiboHotSearchList();
+      setList(data);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    getData();
+  }, []);
+
+  return <HotSearchDataList list={list} loading={loading} />;
+}
+
+function BilibiliHotSearchList() {
+  const [list, setList] = useState<HotSearchDataItem[]>([]);
+  const [loading, setLoading] = useLoading();
+
+  const getData = async () => {
+    try {
+      setLoading(true);
+      const data = await fetchBilibiliHotSearchList();
+      setList(data);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    getData();
+  }, []);
+
+  return <HotSearchDataList list={list} loading={loading} />;
+}
+
+function Home() {
+  return (
+    <>
+      <WeiboHotSearchList />
+      <BilibiliHotSearchList />
+    </>
   );
 }
 

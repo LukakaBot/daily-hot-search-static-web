@@ -34,60 +34,65 @@ function HotSearchDataList({
 }) {
 	return (
 		<div className='w-full'>
-			<div className='grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4'>
-				<Card>
-					<CardHeader>
-						<CardTitle>
-							<div className='flex'>{children}</div>
-						</CardTitle>
-					</CardHeader>
-					<CardContent>
-						<ScrollArea className='h-72 rounded-md'>
-							{loading ? (
-								<div className='flex justify-center items-center h-72'>
-									<span className='loading loading-infinity loading-xl'></span>
-								</div>
-							) : (
-								list.map((item, index) => {
-									return (
-										<div
-											className='w-full flex items-center not-last:mb-2 cursor-pointer'
-											key={item.id}
+			<Card>
+				<CardHeader>
+					<CardTitle>
+						<div className='flex'>{children}</div>
+					</CardTitle>
+				</CardHeader>
+				<CardContent>
+					<ScrollArea className='h-72 rounded-md'>
+						{loading ? (
+							<div className='flex justify-center items-center h-72'>
+								<span className='loading loading-infinity loading-xl'></span>
+							</div>
+						) : (
+							list.map((item, index) => {
+								return (
+									<div
+										className='w-full flex items-center cursor-pointer'
+										key={item.id}
+									>
+										<Badge
+											className={getBadgeColorClassName(index)}
+											variant='secondary'
 										>
-											<Badge
-												className={getBadgeColorClassName(index)}
-												variant='secondary'
-											>
-												{item.id}
-											</Badge>
-											<span
-												className='inline-flex items-center justify-center gap-2 px-4 py-2 rounded-md text-sm font-medium underline-offset-4 hover:underline'
-												onClick={() => window.open(item.url, '_blank')}
-											>
-												{item.title}
-											</span>
-										</div>
-									);
-								})
-							)}
-							<ScrollBar orientation='horizontal' />
-						</ScrollArea>
-					</CardContent>
-				</Card>
-			</div>
+											{item.id}
+										</Badge>
+										<span
+											className='inline-flex items-center justify-center gap-2 px-4 py-2 rounded-md text-sm font-medium underline-offset-4 hover:underline'
+											onClick={() => window.open(item.url, '_blank')}
+										>
+											{item.title}
+										</span>
+									</div>
+								);
+							})
+						)}
+						<ScrollBar orientation='horizontal' />
+					</ScrollArea>
+				</CardContent>
+			</Card>
 		</div>
 	);
 }
 
-function WeiboHotSearchList() {
+function HotSearchSection({
+	icon,
+	title,
+	fetchData,
+}: {
+	icon: { name: string; color?: string };
+	title: string;
+	fetchData: () => Promise<HotSearchDataItem[]>;
+}) {
 	const [list, setList] = useState<HotSearchDataItem[]>([]);
 	const [loading, setLoading] = useLoading();
 
 	const getData = async () => {
 		try {
 			setLoading(true);
-			const data = await fetchWeiboHotSearchList();
-			setList(data);
+			setList(await fetchData());
 		} finally {
 			setLoading(false);
 		}
@@ -95,75 +100,47 @@ function WeiboHotSearchList() {
 
 	useEffect(() => {
 		getData();
-	}, []);
+	}, [fetchData]);
 
 	return (
 		<HotSearchDataList list={list} loading={loading}>
-			{/* <BaseIcon className='mr-2' name='svg-xinlang' /> */}
-			<BaseIcon className='mr-2' name='icon-[ant-design--weibo-outlined]' />
-			微博
-		</HotSearchDataList>
-	);
-}
-
-function BilibiliHotSearchList() {
-	const [list, setList] = useState<HotSearchDataItem[]>([]);
-	const [loading, setLoading] = useLoading();
-
-	const getData = async () => {
-		try {
-			setLoading(true);
-			const data = await fetchBilibiliHotSearchList();
-			setList(data);
-		} finally {
-			setLoading(false);
-		}
-	};
-
-	useEffect(() => {
-		getData();
-	}, []);
-
-	return (
-		<HotSearchDataList list={list} loading={loading}>
-			<BaseIcon className='mr-2' name='icon-[ant-design--bilibili-filled]' />
-			bilibili
-		</HotSearchDataList>
-	);
-}
-
-function JuejinHotSearchList() {
-	const [list, setList] = useState<HotSearchDataItem[]>([]);
-	const [loading, setLoading] = useLoading();
-
-	const getData = async () => {
-		try {
-			setLoading(true);
-			const data = await fetchJujinHotSearchList();
-			setList(data);
-		} finally {
-			setLoading(false);
-		}
-	};
-
-	useEffect(() => {
-		getData();
-	}, []);
-
-	return (
-		<HotSearchDataList list={list} loading={loading}>
-			<BaseIcon className='mr-2' name='icon-[tabler--brand-juejin]' />
-			掘金
+			<BaseIcon className='mr-2' name={icon.name} color={icon?.color} />
+			{title}
 		</HotSearchDataList>
 	);
 }
 
 function Home() {
+	const sections = [
+		{
+			icon: { name: 'icon-[ant-design--weibo-outlined]', color: '#d81e06' },
+			title: '微博',
+			fetchData: async () => await fetchWeiboHotSearchList(),
+		},
+		{
+			icon: { name: 'icon-[ant-design--bilibili-filled]', color: '#EB5480' },
+			title: 'bilibili',
+			fetchData: async () => await fetchBilibiliHotSearchList(),
+		},
+		{
+			icon: { name: 'icon-[tabler--brand-juejin]', color: '#007fff' },
+			title: '掘金',
+			fetchData: async () => await fetchJujinHotSearchList(),
+		},
+	];
+
 	return (
-		<div className='flex gap-2'>
-			<WeiboHotSearchList />
-			<BilibiliHotSearchList />
-			<JuejinHotSearchList />
+		<div className='grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4'>
+			{sections.map(({ icon, title, fetchData }, index) => {
+				return (
+					<HotSearchSection
+						icon={icon}
+						title={title}
+						fetchData={fetchData}
+						key={index}
+					/>
+				);
+			})}
 		</div>
 	);
 }

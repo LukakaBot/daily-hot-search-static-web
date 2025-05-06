@@ -1,6 +1,7 @@
 'use client';
 
 import { useTheme } from 'next-themes';
+import { useRouter } from 'next/navigation';
 import { Sun, Moon } from 'lucide-react';
 import {
 	DropdownMenu,
@@ -13,6 +14,7 @@ import BaseIcon from '@/components/Base/Icon';
 
 function Header() {
 	const { setTheme } = useTheme();
+	const router = useRouter();
 
 	return (
 		<header className='border-b-border sticky top-0 z-30 border-b border-dashed'>
@@ -41,6 +43,14 @@ function Header() {
 						</DropdownMenuItem>
 					</DropdownMenuContent>
 				</DropdownMenu>
+
+				<Button
+					variant='outline'
+					size='icon'
+					onClick={() => router.push('/setting')}
+				>
+					<BaseIcon name='icon-[ep--setting]' />
+				</Button>
 			</div>
 		</header>
 	);

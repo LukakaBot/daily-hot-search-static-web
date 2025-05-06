@@ -1,10 +1,8 @@
 import type { NextConfig } from "next";
 
-const env = process.env;
-
 const nextConfig: NextConfig = {
   /* config options here */
-  basePath: env.NEXT_PUBLIC_BASE_PATH,
+  basePath: process.env.NEXT_PUBLIC_BASE_PATH,
   // turbopack: {
   //   rules: {
   //     '*.svg': {

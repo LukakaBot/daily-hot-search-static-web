@@ -7,6 +7,11 @@ export function fetchWeiboHotSearchList(): Promise<HotSearchDataItem[]> {
 }
 
 /** 获取blibili热搜 */
-export function fetchBilibiliHotSearchList():Promise<HotSearchDataItem[]> {
-    return fetcher.get('/bilibili');
+export function fetchBilibiliHotSearchList(): Promise<HotSearchDataItem[]> {
+  return fetcher.get('/bilibili');
+}
+
+/** 获取掘金热搜 */
+export function fetchJujinHotSearchList(): Promise<HotSearchDataItem[]> {
+  return fetcher.get('/juejin');
 }

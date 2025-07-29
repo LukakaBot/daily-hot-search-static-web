@@ -1,23 +1,24 @@
+import type { CSSProperties } from 'react';
+import { useMemo } from 'react';
 import Image from 'next/image';
 import { Icon } from '@iconify/react';
-import { CSSProperties, useMemo } from 'react';
 
-interface BaseIconProps extends React.HTMLAttributes<HTMLElement> {
+interface AppIconProps extends React.HTMLAttributes<HTMLElement> {
 	name: string;
 	size?: number;
 	color?: string;
 }
 
-function BaseIcon(props: BaseIconProps) {
+function AppIcon(props: AppIconProps) {
 	const { className, name, size = 16, color } = props;
 
 	const iconStyle = useMemo(
 		(): CSSProperties => ({
 			width: `${size}px`,
 			height: `${size}px`,
-			color: color ? color : undefined,
+			color: color || 'currentColor',
 		}),
-		[]
+		[size, color]
 	);
 
 	const isLocalIcon = useMemo(() => {
@@ -55,4 +56,4 @@ function BaseIcon(props: BaseIconProps) {
 	);
 }
 
-export default BaseIcon;
+export default AppIcon;

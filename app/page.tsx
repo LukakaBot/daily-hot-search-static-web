@@ -8,7 +8,7 @@ import {
 	fetchJujinHotSearchList,
 } from '@/api/hotSearch';
 import { useLoading } from '@/hook';
-import BaseIcon from '@/components/Base/Icon';
+import AppIcon from '@/components/App/Icon';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { ScrollArea, ScrollBar } from '@/components/ui/scroll-area';
 import { Badge } from '@/components/ui/badge';
@@ -41,36 +41,40 @@ function HotSearchDataList({
 					</CardTitle>
 				</CardHeader>
 				<CardContent>
-					<ScrollArea className='h-72 rounded-md'>
-						{loading ? (
-							<div className='flex justify-center items-center h-72'>
-								<span className='loading loading-infinity loading-xl'></span>
-							</div>
-						) : (
-							list.map((item, index) => {
-								return (
-									<div
-										className='w-full flex items-center cursor-pointer'
-										key={item.id}
-									>
-										<Badge
-											className={getBadgeColorClassName(index)}
-											variant='secondary'
+					{list.length ? (
+						<ScrollArea className='h-72 rounded-md'>
+							{loading ? (
+								<div className='flex justify-center items-center h-72'>
+									<span className='loading loading-infinity loading-xl'></span>
+								</div>
+							) : (
+								list.map((item, index) => {
+									return (
+										<div
+											className='w-full flex items-center cursor-pointer'
+											key={item.id}
 										>
-											{item.id}
-										</Badge>
-										<span
-											className='inline-flex items-center justify-center gap-2 px-4 py-2 rounded-md text-sm font-medium underline-offset-4 hover:underline'
-											onClick={() => window.open(item.url, '_blank')}
-										>
-											{item.title}
-										</span>
-									</div>
-								);
-							})
-						)}
-						<ScrollBar orientation='horizontal' />
-					</ScrollArea>
+											<Badge
+												className={getBadgeColorClassName(index)}
+												variant='secondary'
+											>
+												{item.id}
+											</Badge>
+											<span
+												className='inline-flex items-center justify-center gap-2 px-4 py-2 rounded-md text-sm font-medium underline-offset-4 hover:underline'
+												onClick={() => window.open(item.url, '_blank')}
+											>
+												{item.title}
+											</span>
+										</div>
+									);
+								})
+							)}
+							<ScrollBar orientation='horizontal' />
+						</ScrollArea>
+					) : (
+						<div>加载失败</div>
+					)}
 				</CardContent>
 			</Card>
 		</div>
@@ -104,7 +108,7 @@ function HotSearchSection({
 
 	return (
 		<HotSearchDataList list={list} loading={loading}>
-			<BaseIcon className='mr-2' name={icon.name} color={icon?.color} />
+			<AppIcon className='mr-2' name={icon.name} color={icon?.color} />
 			{title}
 		</HotSearchDataList>
 	);

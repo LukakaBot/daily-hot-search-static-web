@@ -12,14 +12,16 @@ interface AppIconProps extends React.HTMLAttributes<HTMLElement> {
 function AppIcon(props: AppIconProps) {
 	const { className, name, size = 16, color } = props;
 
-	const iconStyle = useMemo(
-		(): CSSProperties => ({
+	const iconStyle = useMemo((): CSSProperties => {
+		const style: CSSProperties = {
 			width: `${size}px`,
 			height: `${size}px`,
-			color: color || 'currentColor',
-		}),
-		[size, color]
-	);
+		};
+		if (color) {
+			style.color = color;
+		}
+		return style;
+	}, [size, color]);
 
 	const isLocalIcon = useMemo(() => {
 		return name.startsWith('svg-');
@@ -42,7 +44,7 @@ function AppIcon(props: AppIconProps) {
 	}
 
 	if (isCSSIcon) {
-		return <span className={`${name} ${className}`} style={iconStyle} />;
+		return <span className={`${name} ${className ?? ''}`} style={iconStyle} />;
 	}
 
 	return (
